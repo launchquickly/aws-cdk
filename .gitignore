@@ -1,0 +1,8 @@
+# Vagrant
+.vagrant
+
+# IDE
+.vscode/
+
+# javascript
+node_modules/

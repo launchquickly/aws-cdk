@@ -1,0 +1,10 @@
+Host cdk.scot.local
+  HostName 10.205.0.60
+  User vagrant
+  Port 22
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile /home/vagrant/.ssh/id_rsa_cdk
+  IdentitiesOnly yes
+  LogLevel FATAL

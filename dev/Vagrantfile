@@ -1,0 +1,105 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.require_version ">= 2.2.13"
+
+Vagrant.configure("2") do |config|
+
+   config.vm.synced_folder ".", "/vagrant", disabled: true
+
+   config.ssh.insert_key = false
+
+   config.vm.define "cdk-code" do |code|
+      code.vm.box = "launchquickly/focal-desktop64"
+      code.vm.box_version = "0.0.6"
+
+      code.vm.hostname = "cdk-code"
+
+      code.vm.network :private_network, ip: "10.205.0.40"
+
+      code.vm.provider "virtualbox" do |vb|
+         vb.gui = true
+         vb.memory = 4096
+         vb.cpus = 2
+         vb.customize ["modifyvm", :id, "--vram", "128"]
+         vb.customize ["modifyvm", :id, "--graphicscontroller", "vmsvga"]
+      end
+
+      code.vm.provision "shell", inline: <<-SHELL
+         snap install code --classic
+      SHELL
+
+      # Run as unpriviliged user to configure for 'vagrant' user
+      code.vm.provision "shell", privileged: false, inline: <<-SHELL
+         code --install-extension ms-vscode-remote.remote-ssh
+      SHELL
+
+      # Make private keys of instances that vscode will connect to available
+      code.vm.provision "file", source: "./keys/id_rsa_cdk", destination: "~/.ssh/id_rsa_cdk"
+
+      code.vm.provision "file", source: "./config", destination: "~/.ssh/config"
+
+      code.vm.provision "shell", privileged: false, inline: <<-SHELL
+         chmod 400 ~/.ssh/id_rsa_cdk
+         chmod 400 ~/.ssh/config
+      SHELL
+   end
+
+   config.vm.define "cdk-server" do |server|
+      server.vm.box = "launchquickly/focal64"
+      server.vm.box_version = "0.0.5"
+
+      server.vm.hostname = "cdk-server"
+
+      server.vm.network :private_network, ip: "10.205.0.60"
+
+      server.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', './keys/id_rsa_cdk']
+
+      server.vm.provision "file", source: "./keys/id_rsa_cdk.pub", destination: "~/.ssh/authorized_keys"
+
+      server.vm.provision "shell", inline: <<-SHELL
+         nodejs_version=v14.15.4
+         nodejs_distro=linux-x64
+         
+         wget https://nodejs.org/dist/${nodejs_version}/node-${nodejs_version}-${nodejs_distro}.tar.xz
+
+         mkdir -p /usr/local/lib/nodejs
+         tar -xJvf node-${nodejs_version}-${nodejs_distro}.tar.xz -C /usr/local/lib/nodejs 
+
+         rm ./node-${nodejs_version}-${nodejs_distro}.tar.xz
+
+         apt-get install unzip
+
+         # VS code needs the number of file handles to be increased to manage npm modules
+         echo "" >> /etc/sysctl.conf
+         echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf
+         sysctl -p
+         # TODO investigate whether these should instead be excluded: 
+         # https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc
+      SHELL
+
+      # Run as unpriviliged user to configure for 'vagrant' user
+      server.vm.provision "shell", privileged: false, inline: <<-SHELL
+         nodejs_version=v14.15.4
+         nodejs_distro=linux-x64
+
+         echo "" >> ~/.profile
+         echo "export PATH=/usr/local/lib/nodejs/node-${nodejs_version}-${nodejs_distro}/bin:$PATH" >> ~/.profile
+         source ~/.profile
+
+         # Configure npm directory to avoid permissions issues for global installs
+         mkdir ~/.npm-global
+         npm config set prefix '~/.npm-global'
+         echo "" >> ~/.profile
+         echo "export PATH=~/.npm-global/bin:$PATH" >> ~/.profile
+         source ~/.profile
+
+
+         git clone https://github.com/launchquickly/aws-cdk
+         cd aws-cdk
+         # change repository remote access from https to ssh
+         git remote set-url origin git@github.com:launchquickly/aws-cdk
+
+      SHELL
+   end
+end
