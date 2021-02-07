@@ -7,5 +7,5 @@ node_modules
 .cdk.staging
 cdk.out
 
-# Include lambda direcatory
+# Include js in lambda direcatory
 !lambda/*.js
