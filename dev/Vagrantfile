@@ -76,6 +76,13 @@ Vagrant.configure("2") do |config|
          sysctl -p
          # TODO investigate whether these should instead be excluded: 
          # https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc
+
+         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+         unzip awscliv2.zip
+         ./aws/install
+
+         rm -rf ./aws
+         rm ./awscliv2.zip         
       SHELL
 
       # Run as unpriviliged user to configure for 'vagrant' user
@@ -93,6 +100,9 @@ Vagrant.configure("2") do |config|
          echo "" >> ~/.profile
          echo "export PATH=~/.npm-global/bin:$PATH" >> ~/.profile
          source ~/.profile
+
+         # install AWS CDK Toolkit
+         npm install -g aws-cdk
 
 
          git clone https://github.com/launchquickly/aws-cdk
