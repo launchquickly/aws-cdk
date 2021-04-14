@@ -7,15 +7,7 @@ test('SQS Queue Created', () => {
     // WHEN
     const stack = new CdkWorkshop.CdkWorkshopStack(app, 'MyTestStack');
     // THEN
-    expectCDK(stack).to(haveResource("AWS::SQS::Queue",{
-      VisibilityTimeout: 300
-    }));
+    expectCDK(stack).to(haveResource("AWS::DynamoDB::Table"));
 });
 
-test('SNS Topic Created', () => {
-  const app = new cdk.App();
-  // WHEN
-  const stack = new CdkWorkshop.CdkWorkshopStack(app, 'MyTestStack');
-  // THEN
-  expectCDK(stack).to(haveResource("AWS::SNS::Topic"));
-});
+

@@ -1,6 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
+import { TableEncryption } from '@aws-cdk/aws-dynamodb';
 
 export interface HitCounterProps {
     /** the function for which we want to count url hits  **/
@@ -22,7 +23,8 @@ export class HitCounter extends cdk.Construct {
             partitionKey: { 
                 name: 'path', 
                 type: dynamodb.AttributeType.STRING 
-            }
+            },
+            encryption: TableEncryption.AWS_MANAGED
         });
         this.table = table;
 
