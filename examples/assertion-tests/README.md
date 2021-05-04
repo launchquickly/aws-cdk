@@ -3,7 +3,7 @@
 CDK assertion tests allow verification of certain construct behaviour and attributes. This includes, checking a resources:
 
 * existance: [Vpc Created](/examples/assertion-tests/test/vpc-stack.test.ts#L24)
-* values of some of its properties: [Vpc Created](/examples/assertion-tests/test/vpc-stack.test.ts#L30)
+* values of some of its properties: [Vpc DNS hostnames not supported](/examples/assertion-tests/test/vpc-stack.test.ts#L30)
 * number: [Number of NatGateways matches number of AZs](/examples/assertion-tests/test/vpc-stack.test.ts#L36)
 
 Sometimes these checks allow the verification of other properties. e.g. checking the number of NatGateways is 2 confirms that the effect of the maxAz property.
