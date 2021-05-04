@@ -8,7 +8,9 @@ Project to collect and document AWS CDK related examples, practices and tools
 * [Concepts](#TODO)
 * [Mechanics and organisation](/docs/TODO.md)
 * [Development and Delivery pipeline practices](/docs/TODO.md)
-* [Examples](/docs/TODO.md)
+* [Examples](/examples/README.md)
+   * Testing
+     * [Assertion Tests](/examples/assertion-tests/README.md)
 * [TODOs](/docs/TODO.md)
 
 ## References
