@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from '@aws-cdk/core';
-import { AssertionTestsStack } from '../lib/assertion-tests-stack';
+import { VpcStack } from '../lib/vpc-stack';
 
 const app = new cdk.App();
-new AssertionTestsStack(app, 'AssertionTestsStack');
+new VpcStack(app, 'AssertionTestsVpcStack');

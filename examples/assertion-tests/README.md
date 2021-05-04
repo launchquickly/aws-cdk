@@ -1,9 +1,16 @@
 # Assertion tests
 
-You should explore the contents of this project. It demonstrates a CDK app with an instance of a stack (`AssertionTestsStack`)
-which contains an Amazon SQS queue that is subscribed to an Amazon SNS topic.
+CDK assertion tests allow verification of certain construct behaviour and attributes. This includes, checking a resources:
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+* existance: [Vpc Created](/examples/assertion-tests/test/vpc-stack.test.ts#L24)
+* values of some of its properties: [Vpc Created](/examples/assertion-tests/test/vpc-stack.test.ts#L30)
+* number: [Number of NatGateways matches number of AZs](/examples/assertion-tests/test/vpc-stack.test.ts#L36)
+
+Sometimes these checks allow the verification of other properties. e.g. checking the number of NatGateways is 2 confirms that the effect of the maxAz property.
+
+You can also use normal jest assertions to verify attributes and values of constructs: 
+
+* test [VpcStack availability zones as expected](/examples/assertion-tests/test/vpc-stack.test.ts#L17) asserts the number and values of AZs.
 
 ## Useful commands
 
