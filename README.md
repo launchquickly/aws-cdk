@@ -4,7 +4,7 @@ Project to collect and document AWS CDK related examples, practices and tools
 
 ## Documentation
 
-* [Common commands](/docs/TODO.md)
+* [Common commands](/docs/common-commands.md)
 * [Concepts](#TODO)
 * [Mechanics and organisation](/docs/TODO.md)
 * [Development and Delivery pipeline practices](/docs/TODO.md)
