@@ -1,8 +1,8 @@
 {
-  "name": "assertion-tests",
+  "name": "validation-tests",
   "version": "0.1.0",
   "bin": {
-    "assertion-tests": "bin/assertion-tests.js"
+    "validation-tests": "bin/validation-tests.js"
   },
   "scripts": {
     "build": "tsc",
@@ -21,7 +21,9 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "@aws-cdk/aws-ec2": "1.88.0",
+    "@aws-cdk/aws-sns": "1.88.0",
+    "@aws-cdk/aws-sns-subscriptions": "1.88.0",
+    "@aws-cdk/aws-sqs": "1.88.0",
     "@aws-cdk/core": "1.88.0"
   }
 }

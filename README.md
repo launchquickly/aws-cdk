@@ -11,6 +11,7 @@ Project to collect and document AWS CDK related examples, practices and tools
 * [Examples](/examples/README.md)
    * Testing
      * [Assertion Tests](/examples/assertion-tests/README.md)
+     * [Validation Tests](/examples/validation-tests/README.md)
 * [TODOs](/docs/TODO.md)
 
 ## References
